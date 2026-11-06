@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>오피스의 연금술사 — 인덕대학교 스마트경영·비서학과 제28회 졸업전시회</title>
+  <meta name="description" content="인덕대학교 스마트경영·비서학과 제28회 졸업전시회 「오피스의 연금술사」 Human Intelligence × Artificial Intelligence. 전시 주제, 학과 소개, 졸업 작품, 일정과 오시는 길을 확인하세요." />
+  <meta name="theme-color" content="#060B1F" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Open Graph (카카오톡·SNS 공유 미리보기) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="오피스의 연금술사 — 제28회 졸업전시회" />
+  <meta property="og:description" content="인덕대학교 스마트경영·비서학과 · Human Intelligence × Artificial Intelligence" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@200..800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Three.js 모듈 경로 (버전 고정) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <!-- ── Loader ─────────────────────────────────────── -->
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader__inner">
+      <svg class="loader__sigil" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="ls ls--1" cx="100" cy="100" r="92" />
+        <circle class="ls ls--2" cx="100" cy="100" r="74" />
+        <polygon class="ls ls--3" points="100,26 164,137 36,137" />
+        <polygon class="ls ls--4" points="100,174 36,63 164,63" />
+        <circle class="ls ls--5" cx="100" cy="100" r="30" />
+        <circle class="loader__core" cx="100" cy="100" r="5" />
+      </svg>
+      <p class="loader__label"><span class="loader__pct" id="loaderPct">0</span><span class="loader__unit">%</span></p>
+      <p class="loader__caption">공간을 연성하는 중</p>
+    </div>
+  </div>
+
+  <!-- ── 3D Stage ────────────────────────────────────── -->
+  <div class="stage" aria-hidden="true">
+    <canvas id="scene"></canvas>
+    <div class="stage__fallback"></div>
+    <div class="stage__grain"></div>
+    <div class="stage__vignette"></div>
+  </div>
+
+  <!-- ── Header ──────────────────────────────────────── -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__brand" aria-label="오피스의 연금술사 처음으로">
+      <svg class="nav__mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" />
+        <polygon points="20,5 33,27.5 7,27.5" />
+        <circle cx="20" cy="20" r="6" />
+      </svg>
+      <span class="nav__brand-text">
+        <strong>오피스의 연금술사</strong>
+        <small data-bind="editionLine"></small>
+      </span>
+    </a>
+
+    <nav class="nav__menu" id="navMenu" aria-label="주요 메뉴">
+      <ol class="nav__list" data-bind="navList"></ol>
+    </nav>
+
+    <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navMenu">
+      <span></span><span></span>
+    </button>
+    <div class="nav__progress" aria-hidden="true"><span id="navProgress"></span></div>
+  </header>
+
+  <!-- 단계 표시(우측) -->
+  <aside class="rail" aria-label="공간 이동">
+    <ol class="rail__list" data-bind="rail"></ol>
+  </aside>
+
+  <main id="main">
+    <!-- 0 · Prima Materia — 메인 -->
+    <section id="hero" class="scene-section hero" data-station="0" aria-labelledby="heroTitle">
+      <div class="hero__inner">
+        <p class="hero__edition" data-bind="heroEdition"></p>
+        <h1 class="hero__title" id="heroTitle">
+          <span class="hero__title-ko" data-bind="title" data-split></span>
+          <span class="hero__title-en" data-bind="titleEn"></span>
+        </h1>
+        <p class="hero__subtitle" data-bind="subtitle"></p>
+        <p class="hero__tagline" data-bind="tagline"></p>
+        <a class="btn btn--gold hero__cta" href="#concept" data-bind="heroCta"></a>
+      </div>
+      <a href="#concept" class="scroll-cue" aria-label="다음 공간으로 이동">
+        <span class="scroll-cue__line"></span>
+        <span class="scroll-cue__text">스크롤하여 입장</span>
+      </a>
+    </section>
+
+    <!-- 1 · Nigredo — 기획 의도 -->
+    <section id="concept" class="scene-section" data-station="1" data-align="left" aria-labelledby="conceptTitle">
+      <div class="panel" data-reveal>
+        <p class="panel__stage" data-stage="1"></p>
+        <h2 class="panel__title" id="conceptTitle" data-bind="conceptHeading"></h2>
+        <div class="prose" data-bind="conceptParagraphs"></div>
+        <div class="triad" data-bind="pillars"></div>
+      </div>
+    </section>
+
+    <!-- 2 · Albedo — 학과 소개 -->
+    <section id="department" class="scene-section" data-station="2" data-align="right" aria-labelledby="deptTitle">
+      <div class="panel" data-reveal>
+        <p class="panel__stage" data-stage="2"></p>
+        <h2 class="panel__title" id="deptTitle" data-bind="deptHeading"></h2>
+        <p class="lead" data-bind="deptIntro"></p>
+        <dl class="facts" data-bind="facts"></dl>
+        <ul class="skills" data-bind="highlights"></ul>
+      </div>
+    </section>
+
+    <!-- 3 · Citrinitas — 졸업 전시 구성 -->
+    <section id="works" class="scene-section works" data-station="3" aria-labelledby="worksTitle">
+      <div class="panel panel--wide" data-reveal>
+        <div class="works__head">
+          <div>
+            <p class="panel__stage" data-stage="3"></p>
+            <h2 class="panel__title" id="worksTitle">졸업 전시 구성</h2>
+          </div>
+          <p class="works__hint">작품을 선택하면 상세 정보를 볼 수 있습니다. 공간 속 액자를 직접 눌러도 됩니다.</p>
+        </div>
+        <div class="filters" role="group" aria-label="전시 구성별로 보기" data-bind="filters"></div>
+        <p class="works__count" aria-live="polite" data-bind="worksCount"></p>
+        <ul class="works__grid" data-bind="worksGrid"></ul>
+      </div>
+    </section>
+
+    <!-- 4 · Rubedo — 일정·장소 -->
+    <section id="schedule" class="scene-section" data-station="4" data-align="left" aria-labelledby="scheduleTitle">
+      <div class="panel" data-reveal>
+        <p class="panel__stage" data-stage="4"></p>
+        <h2 class="panel__title" id="scheduleTitle" data-bind="scheduleHeading"></h2>
+        <dl class="info" data-bind="scheduleInfo"></dl>
+        <ol class="timeline" data-bind="events"></ol>
+        <div class="panel__actions" data-bind="scheduleActions"></div>
+      </div>
+    </section>
+
+    <!-- 5 · Lapis — 오시는 길 -->
+    <section id="location" class="scene-section" data-station="5" data-align="right" aria-labelledby="locationTitle">
+      <div class="panel" data-reveal>
+        <p class="panel__stage" data-stage="5"></p>
+        <h2 class="panel__title" id="locationTitle" data-bind="locationHeading"></h2>
+        <div class="address">
+          <p data-bind="address"></p>
+          <button class="btn btn--quiet btn--sm" type="button" id="copyAddress">주소 복사</button>
+        </div>
+        <div class="map" data-bind="map"></div>
+        <ul class="transit" data-bind="transit"></ul>
+        <div class="panel__actions" data-bind="mapLinks"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__title" data-bind="footerTitle"></p>
+      <p class="footer__meta" data-bind="contact"></p>
+      <p class="footer__copy" data-bind="copyright"></p>
+      <a class="footer__top" href="#hero">처음으로</a>
+    </div>
+  </footer>
+
+  <!-- ── 작품 상세 ──────────────────────────────────── -->
+  <div class="modal" id="workModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <article class="modal__card" tabindex="-1">
+      <button class="modal__close" type="button" aria-label="상세 정보 닫기" data-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
+      </button>
+      <div class="modal__media">
+        <img class="modal__hero-img" alt="" />
+        <div class="modal__thumbs"></div>
+      </div>
+      <div class="modal__body">
+        <p class="modal__cat"></p>
+        <h3 class="modal__title" id="modalTitle"></h3>
+        <p class="modal__summary"></p>
+        <dl class="modal__credits"></dl>
+        <div class="modal__desc"></div>
+        <div class="modal__actions">
+          <a class="btn btn--gold modal__video" target="_blank" rel="noopener" hidden>작품 영상 보기</a>
+          <button class="btn btn--quiet modal__share" type="button">링크 복사</button>
+        </div>
+        <nav class="modal__pager" aria-label="다른 작품">
+          <button type="button" class="modal__prev">이전 작품</button>
+          <span class="modal__index"></span>
+          <button type="button" class="modal__next">다음 작품</button>
+        </nav>
+      </div>
+    </article>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="cursor" aria-hidden="true"><span></span></div>
+
+  <noscript><style>.loader{display:none}</style></noscript>
+
+  <!-- 콘텐츠 → 라이브러리 → 3D 씬 → UI -->
+  <script src="js/data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="js/scene.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
