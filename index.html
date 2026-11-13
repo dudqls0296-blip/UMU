@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>오피스의 연금술사 — 인덕대학교 스마트경영·비서학과 제28회 졸업전시회</title>
   <meta name="description" content="인덕대학교 스마트경영·비서학과 제28회 졸업전시회 「오피스의 연금술사」 Human Intelligence × Artificial Intelligence. 전시 주제, 학과 소개, 졸업 작품, 일정과 오시는 길을 확인하세요." />
-  <meta name="theme-color" content="#060B1F" />
+  <meta name="theme-color" content="#171315" />
   <meta name="color-scheme" content="dark" />
 
   <!-- Open Graph (카카오톡·SNS 공유 미리보기) -->
@@ -19,12 +19,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@200..800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 
+  <link rel="preload" as="image" href="assets/images/hero-atelier.jpg" fetchpriority="high" />
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Three.js 모듈 경로 (버전 고정) -->
+  <!-- 히어로 3D(three.js) 모듈 경로 — 버전 고정 -->
   <script type="importmap">
   {
     "imports": {
@@ -38,46 +39,35 @@
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
-  <!-- ── Loader ─────────────────────────────────────── -->
+  <!-- ── Intro : 벨벳 커튼이 열리는 시네마틱 인트로 ───────── -->
   <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader__curtain loader__curtain--l" aria-hidden="true"></div>
+    <div class="loader__curtain loader__curtain--r" aria-hidden="true"></div>
     <div class="loader__inner">
-      <svg class="loader__sigil" viewBox="0 0 200 200" aria-hidden="true">
-        <circle class="ls ls--1" cx="100" cy="100" r="92" />
-        <circle class="ls ls--2" cx="100" cy="100" r="74" />
-        <polygon class="ls ls--3" points="100,26 164,137 36,137" />
-        <polygon class="ls ls--4" points="100,174 36,63 164,63" />
-        <circle class="ls ls--5" cx="100" cy="100" r="30" />
-        <circle class="loader__core" cx="100" cy="100" r="5" />
-      </svg>
+      <p class="loader__eyebrow">Induk University</p>
+      <p class="loader__mark">Secretarial Studies</p>
+      <span class="loader__line" aria-hidden="true"><span></span></span>
       <p class="loader__label"><span class="loader__pct" id="loaderPct">0</span><span class="loader__unit">%</span></p>
-      <p class="loader__caption">공간을 연성하는 중</p>
     </div>
-  </div>
-
-  <!-- ── 3D Stage ────────────────────────────────────── -->
-  <div class="stage" aria-hidden="true">
-    <canvas id="scene"></canvas>
-    <div class="stage__fallback"></div>
-    <div class="stage__grain"></div>
-    <div class="stage__vignette"></div>
   </div>
 
   <!-- ── Header ──────────────────────────────────────── -->
   <header class="nav" id="nav">
-    <a href="#hero" class="nav__brand" aria-label="오피스의 연금술사 처음으로">
+    <a href="#hero" class="nav__brand" aria-label="인덕대학교 비서학과 졸업전시회 처음으로">
       <svg class="nav__mark" viewBox="0 0 40 40" aria-hidden="true">
-        <circle cx="20" cy="20" r="18.5" />
-        <polygon points="20,5 33,27.5 7,27.5" />
-        <circle cx="20" cy="20" r="6" />
+        <rect x="1" y="1" width="38" height="38" />
+        <path d="M20 7 L33 20 L20 33 L7 20 Z" />
+        <circle cx="20" cy="20" r="2.2" />
       </svg>
       <span class="nav__brand-text">
-        <strong>오피스의 연금술사</strong>
+        <strong>Secretarial Studies</strong>
         <small data-bind="editionLine"></small>
       </span>
     </a>
 
     <nav class="nav__menu" id="navMenu" aria-label="주요 메뉴">
       <ol class="nav__list" data-bind="navList"></ol>
+      <span class="nav__indicator" aria-hidden="true"></span>
     </nav>
 
     <button class="nav__toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navMenu">
@@ -86,100 +76,189 @@
     <div class="nav__progress" aria-hidden="true"><span id="navProgress"></span></div>
   </header>
 
-  <!-- 단계 표시(우측) -->
-  <aside class="rail" aria-label="공간 이동">
+  <!-- 진행 표시(우측) -->
+  <aside class="rail" aria-label="섹션 이동">
     <ol class="rail__list" data-bind="rail"></ol>
   </aside>
 
+  <!-- 다음 섹션으로 한 번에 이동 (빈 곳 클릭 · 이 버튼 · 스크롤 모두 가능) -->
+  <button class="next-cue" id="nextCue" type="button" aria-label="다음 섹션으로 이동">
+    <span class="next-cue__eyebrow">Next</span>
+    <span class="next-cue__name" id="nextCueName"></span>
+    <span class="next-cue__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 2v11M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>
+  </button>
+
+  <!-- 3D 집무실 공간: 두 번째 섹션부터 스크롤에 따라 카메라가 이동합니다 (히어로는 사진 그대로) -->
+  <div class="stage" aria-hidden="true"><canvas id="scene"></canvas><div class="stage__veil"></div></div>
+
   <main id="main">
-    <!-- 0 · Prima Materia — 메인 -->
+    <!-- 00 · HERO ─────────────────────────────────────── -->
     <section id="hero" class="scene-section hero" data-station="0" aria-labelledby="heroTitle">
-      <div class="hero__inner">
-        <p class="hero__edition" data-bind="heroEdition"></p>
-        <h1 class="hero__title" id="heroTitle">
-          <span class="hero__title-ko" data-bind="title" data-split></span>
-          <span class="hero__title-en" data-bind="titleEn"></span>
-        </h1>
-        <p class="hero__subtitle" data-bind="subtitle"></p>
-        <p class="hero__tagline" data-bind="tagline"></p>
-        <a class="btn btn--gold hero__cta" href="#concept" data-bind="heroCta"></a>
+      <div class="hero__media" aria-hidden="true">
+        <div class="hero__velvet"></div>
+        <div class="hero__photo" data-hero-photo>
+          <img src="assets/images/hero-atelier.jpg" alt="" width="1122" height="1402" fetchpriority="high" decoding="async" />
+        </div>
+        <svg class="hero__trail" viewBox="0 0 1600 900" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="trailGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#D6B58A" stop-opacity="0" />
+              <stop offset=".35" stop-color="#F3DFC0" stop-opacity=".9" />
+              <stop offset=".7" stop-color="#D6B58A" stop-opacity=".55" />
+              <stop offset="1" stop-color="#D6B58A" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path class="hero__trail-path" d="M-40 760 C 260 640, 420 860, 720 720 S 1180 380, 1640 300" />
+          <path class="hero__trail-path hero__trail-path--2" d="M-40 820 C 300 700, 520 900, 820 780 S 1260 470, 1640 400" />
+        </svg>
+        <div class="hero__shade"></div>
       </div>
-      <a href="#concept" class="scroll-cue" aria-label="다음 공간으로 이동">
+
+      <div class="hero__inner">
+        <p class="hero__eyebrow"><span class="hero__eyebrow-rule"></span><span data-bind="brandEyebrow">Induk University</span></p>
+        <h1 class="hero__title" id="heroTitle">
+          <span class="sr-only">인덕대학교 비서학과 제28회 졸업전시회 오피스의 연금술사</span>
+          <span class="hero__title-en" aria-hidden="true" data-bind="brandTitle"><span class="line"><span>Secretarial</span></span><span class="line"><span>Studies</span></span></span>
+        </h1>
+        <p class="hero__copy" data-bind="brandCopy"></p>
+
+        <div class="hero__exhibit">
+          <p class="hero__edition" data-bind="heroEdition"></p>
+          <p class="hero__exhibit-title">
+            <span class="hero__title-ko" data-bind="title" data-split></span>
+            <span class="hero__exhibit-en" data-bind="titleEn"></span>
+          </p>
+          <p class="hero__subtitle" data-bind="subtitle"></p>
+        </div>
+
+        <div class="hero__actions">
+          <a class="btn btn--gold hero__cta" href="#concept" data-bind="heroCta"></a>
+          <a class="btn btn--text" href="#works">Graduation Works</a>
+        </div>
+      </div>
+
+      <p class="hero__caption" aria-hidden="false"><span class="hero__caption-no">No. 28</span><span data-bind="tagline"></span></p>
+      <dl class="hero__meta" data-bind="heroMeta"></dl>
+
+      <a href="#concept" class="scroll-cue" aria-label="다음 섹션으로 이동">
+        <span class="scroll-cue__text">Scroll</span>
         <span class="scroll-cue__line"></span>
-        <span class="scroll-cue__text">스크롤하여 입장</span>
       </a>
     </section>
 
-    <!-- 1 · Nigredo — 기획 의도 -->
-    <section id="concept" class="scene-section" data-station="1" data-align="left" aria-labelledby="conceptTitle">
-      <div class="panel" data-reveal>
-        <p class="panel__stage" data-stage="1"></p>
-        <h2 class="panel__title" id="conceptTitle" data-bind="conceptHeading"></h2>
-        <div class="prose" data-bind="conceptParagraphs"></div>
-        <div class="triad" data-bind="pillars"></div>
+    <!-- 01 · ABOUT — 기획 의도 ─────────────────────────── -->
+    <section id="concept" class="scene-section about" data-station="1" aria-labelledby="conceptTitle">
+      <!-- 집무실 사진(오른쪽 전면) — 첫 화면과 같은 구도로 이어집니다 -->
+      <div class="about__office" aria-hidden="true">
+        <div class="about__office-photo" data-office-photo><div class="about__office-inner" data-parallax="10"><img src="assets/images/about-office.jpg" alt="" width="1252" height="1494" loading="lazy" decoding="async" /></div></div>
+        <div class="about__office-shade"></div>
+      </div>
+      <p class="display display--about" aria-hidden="true" data-reveal-line><span>About</span></p>
+      <div class="about__grid">
+        <figure class="about__figure media" data-reveal-media>
+          <div class="media__inner" data-parallax="12"><img src="assets/images/about-resume.jpg" alt="빛의 리본에 둘러싸인 유리 구조물 속 이력서와 사진들" width="1122" height="1402" loading="lazy" decoding="async" /></div>
+          <figcaption class="media__cap"><span>Fig. 01</span> Human Intelligence × Artificial Intelligence</figcaption>
+        </figure>
+        <div class="panel about__text" data-reveal>
+          <p class="panel__stage" data-stage="1" data-label="About the Exhibition"></p>
+          <h2 class="panel__title" id="conceptTitle" data-bind="conceptHeading"></h2>
+          <div class="prose" data-bind="conceptParagraphs"></div>
+          <div class="triad" data-bind="pillars"></div>
+        </div>
       </div>
     </section>
 
-    <!-- 2 · Albedo — 학과 소개 -->
-    <section id="department" class="scene-section" data-station="2" data-align="right" aria-labelledby="deptTitle">
-      <div class="panel" data-reveal>
-        <p class="panel__stage" data-stage="2"></p>
-        <h2 class="panel__title" id="deptTitle" data-bind="deptHeading"></h2>
-        <p class="lead" data-bind="deptIntro"></p>
-        <dl class="facts" data-bind="facts"></dl>
-        <ul class="skills" data-bind="highlights"></ul>
+    <!-- 02 · DEPARTMENT — 학과 소개 ────────────────────── -->
+    <section id="department" class="scene-section dept" data-station="2" aria-labelledby="deptTitle">
+      <div class="dept__grid">
+        <div class="panel dept__text" data-reveal>
+          <p class="panel__stage" data-stage="2" data-label="The Department"></p>
+          <p class="display display--dept" aria-hidden="true"><span>Department</span></p>
+          <h2 class="panel__title" id="deptTitle" data-bind="deptHeading"></h2>
+          <p class="lead" data-bind="deptIntro"></p>
+          <ul class="skills" data-bind="highlights"></ul>
+        </div>
+        <figure class="dept__figure media" data-reveal-media>
+          <div class="media__inner" data-parallax="10"><img src="assets/images/department-press.jpg" alt="빛이 흐르는 유리 지구본과 INDUK TIMES 신문 전시" width="1122" height="1402" loading="lazy" decoding="async" /></div>
+          <figcaption class="media__cap"><span>Fig. 02</span> Communication connects the world</figcaption>
+        </figure>
       </div>
+      <dl class="facts" data-bind="facts" data-reveal></dl>
     </section>
 
-    <!-- 3 · Citrinitas — 졸업 전시 구성 -->
+    <!-- 03 · GALLERY — 졸업 전시 구성 ──────────────────── -->
     <section id="works" class="scene-section works" data-station="3" aria-labelledby="worksTitle">
       <div class="panel panel--wide" data-reveal>
         <div class="works__head">
-          <div>
-            <p class="panel__stage" data-stage="3"></p>
+          <div class="works__title-wrap">
+            <p class="panel__stage" data-stage="3" data-label="Graduation Works"></p>
+            <p class="display display--gallery" aria-hidden="true"><span>Gallery</span></p>
             <h2 class="panel__title" id="worksTitle">졸업 전시 구성</h2>
           </div>
-          <p class="works__hint">작품을 선택하면 상세 정보를 볼 수 있습니다. 공간 속 액자를 직접 눌러도 됩니다.</p>
+          <figure class="works__banner media" aria-hidden="true">
+            <div class="media__inner" data-parallax="8"><img src="assets/images/gallery-frames.jpg" alt="" width="543" height="462" loading="lazy" decoding="async" /></div>
+          </figure>
+          <p class="works__hint">작품을 선택하면 상세 정보를 볼 수 있습니다. 각 작품은 고유 링크로 공유할 수 있습니다.</p>
         </div>
-        <div class="filters" role="group" aria-label="전시 구성별로 보기" data-bind="filters"></div>
-        <p class="works__count" aria-live="polite" data-bind="worksCount"></p>
+        <div class="works__toolbar">
+          <div class="filters" role="group" aria-label="전시 구성별로 보기" data-bind="filters"></div>
+          <p class="works__count" aria-live="polite" data-bind="worksCount"></p>
+        </div>
         <ul class="works__grid" data-bind="worksGrid"></ul>
       </div>
     </section>
 
-    <!-- 4 · Rubedo — 일정·장소 -->
-    <section id="schedule" class="scene-section" data-station="4" data-align="left" aria-labelledby="scheduleTitle">
-      <div class="panel" data-reveal>
-        <p class="panel__stage" data-stage="4"></p>
-        <h2 class="panel__title" id="scheduleTitle" data-bind="scheduleHeading"></h2>
-        <dl class="info" data-bind="scheduleInfo"></dl>
-        <ol class="timeline" data-bind="events"></ol>
-        <div class="panel__actions" data-bind="scheduleActions"></div>
+    <!-- 04 · SCHEDULE — 일정·장소 ──────────────────────── -->
+    <section id="schedule" class="scene-section schedule" data-station="4" aria-labelledby="scheduleTitle">
+      <div class="schedule__bg" aria-hidden="true"><div data-parallax="14"></div></div>
+      <div class="schedule__grid">
+        <div class="schedule__intro" data-reveal>
+          <p class="panel__stage" data-stage="4" data-label="Schedule &amp; Venue"></p>
+          <p class="display display--schedule" aria-hidden="true"><span>Schedule</span></p>
+          <h2 class="panel__title" id="scheduleTitle" data-bind="scheduleHeading"></h2>
+        </div>
+        <div class="panel glass schedule__board" data-reveal>
+          <dl class="info" data-bind="scheduleInfo"></dl>
+          <ol class="timeline" data-bind="events"></ol>
+          <div class="panel__actions" data-bind="scheduleActions"></div>
+        </div>
       </div>
     </section>
 
-    <!-- 5 · Lapis — 오시는 길 -->
-    <section id="location" class="scene-section" data-station="5" data-align="right" aria-labelledby="locationTitle">
-      <div class="panel" data-reveal>
-        <p class="panel__stage" data-stage="5"></p>
-        <h2 class="panel__title" id="locationTitle" data-bind="locationHeading"></h2>
-        <div class="address">
-          <p data-bind="address"></p>
-          <button class="btn btn--quiet btn--sm" type="button" id="copyAddress">주소 복사</button>
+    <!-- 05 · LOCATION — 오시는 길 ──────────────────────── -->
+    <section id="location" class="scene-section location" data-station="5" aria-labelledby="locationTitle">
+      <div class="location__grid">
+        <div class="panel location__text" data-reveal>
+          <p class="panel__stage" data-stage="5" data-label="Location"></p>
+          <p class="display display--visit" aria-hidden="true"><span>Visit</span></p>
+          <h2 class="panel__title" id="locationTitle" data-bind="locationHeading"></h2>
+          <div class="address">
+            <p data-bind="address"></p>
+            <button class="btn btn--line btn--sm" type="button" id="copyAddress">주소 복사</button>
+          </div>
+          <ul class="transit" data-bind="transit"></ul>
+          <div class="panel__actions" data-bind="mapLinks"></div>
         </div>
-        <div class="map" data-bind="map"></div>
-        <ul class="transit" data-bind="transit"></ul>
-        <div class="panel__actions" data-bind="mapLinks"></div>
+        <div class="map-frame" data-reveal-media>
+          <div class="map" data-bind="map"></div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
+    <p class="footer__wordmark" aria-hidden="true">Secretarial Studies</p>
     <div class="footer__inner">
-      <p class="footer__title" data-bind="footerTitle"></p>
-      <p class="footer__meta" data-bind="contact"></p>
-      <p class="footer__copy" data-bind="copyright"></p>
-      <a class="footer__top" href="#hero">처음으로</a>
+      <div class="footer__brand">
+        <p class="footer__eyebrow" data-bind="footerEn"></p>
+        <p class="footer__title" data-bind="footerTitle"></p>
+      </div>
+      <dl class="footer__info" data-bind="footerInfo"></dl>
+      <div class="footer__bottom">
+        <p class="footer__meta" data-bind="contact"></p>
+        <p class="footer__copy" data-bind="copyright"></p>
+        <a class="footer__top" href="#hero">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
     </div>
   </footer>
 
@@ -202,7 +281,7 @@
         <div class="modal__desc"></div>
         <div class="modal__actions">
           <a class="btn btn--gold modal__video" target="_blank" rel="noopener" hidden>작품 영상 보기</a>
-          <button class="btn btn--quiet modal__share" type="button">링크 복사</button>
+          <button class="btn btn--line modal__share" type="button">링크 복사</button>
         </div>
         <nav class="modal__pager" aria-label="다른 작품">
           <button type="button" class="modal__prev">이전 작품</button>
@@ -218,11 +297,12 @@
 
   <noscript><style>.loader{display:none}</style></noscript>
 
-  <!-- 콘텐츠 → 라이브러리 → 3D 씬 → UI -->
+  <!-- 콘텐츠 → 라이브러리 → 3D 공간 → UI -->
   <script src="js/data.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <!-- js/hero3d.js(히어로 3D 버전)는 파일로만 남겨 두었습니다. 다시 쓰려면 이 줄을 되살리세요. -->
   <script src="js/scene.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>

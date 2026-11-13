@@ -18,6 +18,14 @@ window.EXHIBITION = {
   titleEn: "The Alchemist of the Office",
   subtitle: "Human Intelligence × Artificial Intelligence",
 
+  /* ── 메인 브랜드 문구 (첫 화면의 큰 영문 타이틀과 한 줄 메시지) ──
+     title 배열의 한 항목이 한 줄로 표시됩니다. */
+  brand: {
+    eyebrow: "Induk University",
+    title: ["Secretarial", "Studies"],
+    copy: "세상을 연결하는 가장 가까운 곳,\n전문성과 품격을 완성하는 공간."
+  },
+
   /* ── 공간 여정(섹션)의 이름 ───────────────────────────────
      연금술의 '대작업(Magnum Opus)' 6단계를 따라 공간을 이동합니다.
      nav: 상단 메뉴에 표시될 이름 / stage: 오른쪽 진행 표시에 쓰이는 라틴어 단계명 */
