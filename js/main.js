@@ -579,9 +579,9 @@ ${obj}
     const camTarget = Math.min(i, sections.length - 1);
     const dist = Math.abs(camTarget - deck.cam.s);
     const flight = instant || reducedMotion ? 0 : Math.min(4.2, 2.8 + 0.45 * Math.max(0, dist - 1));
-    // 사진 장면(메인·기획 의도)과 푸터는 3D를 가리므로 겹쳐서 바로 이어지고,
+    // 사진 장면(메인)과 푸터는 3D를 가리므로 겹쳐서 바로 이어지고,
     // 3D 장면은 카메라가 거의 도착할 즈음 글 패널이 천천히 떠오름
-    const photoLayer = (el) => el && (el.id === "hero" || el.id === "concept" || el.classList.contains("footer"));
+    const photoLayer = (el) => el && (el.id === "hero" || el.classList.contains("footer"));
     const inDelay = flight === 0 ? 0 : photoLayer(L[i]) ? 0.35 : (photoLayer(L[prev]) ? flight * 0.5 : flight * 0.58);
     body.style.setProperty("--deck-in-delay", inDelay.toFixed(2) + "s");
     body.classList.toggle("deck-back", i < prev);
@@ -878,7 +878,7 @@ ${obj}
     const s = await window.AlchemyScene.create($("#scene"), {
       lowPower,
       reducedMotion,
-      works: works.map((w, i) => ({ id: w.id, title: w.title, thumb: thumb3D(w, i) })),
+      works: works.map((w, i) => ({ id: w.id, title: w.title, category: w.category, team: w.team, image: isFile ? "" : w.image, thumb: thumb3D(w, i) })),
       onProgress
     });
     body.classList.add("has-webgl");

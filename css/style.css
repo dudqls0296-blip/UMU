@@ -394,14 +394,12 @@ main { position: relative; z-index: 2; }
 @keyframes cue { to { top: 100%; } }
 
 /* ==========================================================================
-   01 · ABOUT — 에디토리얼 (대형 이미지 + 타이포)
+   01 · ABOUT — 기획 의도
    ========================================================================== */
 .about { padding-top: clamp(8rem, 6rem + 8vw, 15rem); }
-.display--about { position: relative; z-index: 2; margin-bottom: -0.36em; padding-left: calc(var(--col) * 1); }
+.display--about { position: relative; z-index: 2; margin-bottom: 1.6rem; padding-left: 0; }
 .about__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.5rem; align-items: end; }
-.about__figure { grid-column: 1 / span 5; }
-.about__figure .media__inner { aspect-ratio: 4 / 5; }
-.about__text { grid-column: 7 / span 6; padding-bottom: 2rem; max-width: 640px; }
+.about__text { grid-column: 1 / span 6; padding-bottom: 2rem; max-width: 640px; }
 .triad { display: grid; margin-top: 3rem; border-top: 1px solid var(--line-2); counter-reset: tri; }
 .triad__item { display: grid; grid-template-columns: 3.4rem 1fr; column-gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); counter-increment: tri; }
 .triad__symbol { grid-row: span 2; display: block; font-family: var(--f-display); font-size: 1.6rem; line-height: 1; color: var(--gold); padding-top: 0.2rem; }
@@ -808,29 +806,42 @@ main { position: relative; z-index: 2; }
 .has-webgl .hero { z-index: 1; background: var(--ink); }
 
 /* 섹션 배경을 걷어 3D 공간이 보이게 합니다 */
-.has-webgl .dept, .has-webgl .works { background: transparent; }
+.has-webgl .about, .has-webgl .dept, .has-webgl .works { background: transparent; }
 .has-webgl .schedule__bg { display: none; }
 .has-webgl .about__figure, .has-webgl .dept__figure, .has-webgl .works__banner { display: none; }
 .has-webgl .scene-section:not(.hero) { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
 
-/* 공통: 공간 위에 떠 있는 스모크드 글라스 패널 */
+/* 공통: 공간 위에 떠 있는 스모크드 글라스 패널 (Architectural Studio Edition) */
 .has-webgl .about__text,
 .has-webgl .dept__text,
 .has-webgl .works .panel--wide,
+.has-webgl .schedule__board,
 .has-webgl .location__text {
   position: relative;
-  padding: clamp(1.8rem, 1rem + 2.4vw, 3.2rem);
-  background: linear-gradient(160deg, rgba(35, 28, 29, 0.72), rgba(23, 19, 21, 0.6));
-  -webkit-backdrop-filter: blur(18px) saturate(135%); backdrop-filter: blur(18px) saturate(135%);
-  border: 1px solid rgba(232, 222, 211, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 240, 220, 0.1), 0 50px 90px -40px rgba(0, 0, 0, 0.75);
+  padding: clamp(1.6rem, 0.9rem + 1.8vw, 2.5rem) clamp(1.8rem, 1rem + 2vw, 2.8rem);
+  background: linear-gradient(165deg, rgba(26, 20, 22, 0.80) 0%, rgba(15, 12, 13, 0.70) 100%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%); backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid rgba(214, 181, 138, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 242, 222, 0.14),
+    inset 0 0 0 1px rgba(17, 14, 15, 0.45),
+    0 36px 80px -28px rgba(0, 0, 0, 0.82);
 }
 .has-webgl .about__text::before,
 .has-webgl .dept__text::before,
 .has-webgl .works .panel--wide::before,
+.has-webgl .schedule__board::before,
 .has-webgl .location__text::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold) 30%, transparent 75%); opacity: 0.7;
+  background: linear-gradient(90deg, rgba(214, 181, 138, 0.65) 0%, rgba(243, 223, 192, 0.9) 24%, rgba(214, 181, 138, 0.2) 65%, transparent 100%);
+  opacity: 0.85;
+}
+.has-webgl .about__text::after,
+.has-webgl .dept__text::after,
+.has-webgl .schedule__board::after,
+.has-webgl .location__text::after {
+  content: ""; position: absolute; right: -1px; bottom: -1px; width: 14px; height: 14px; pointer-events: none;
+  border-right: 1px solid var(--gold); border-bottom: 1px solid var(--gold); opacity: 0.65;
 }
 
 /* 01 기획 의도 — 오브제(크리스털 구)는 오른쪽, 패널은 왼쪽 */
@@ -848,7 +859,15 @@ main { position: relative; z-index: 2; }
   content: "액자를 눌러 작품을 볼 수 있습니다"; position: absolute; left: 50%; top: 62vh; transform: translateX(-50%);
   font-size: var(--fs-xs); letter-spacing: 0.18em; color: var(--gold); opacity: 0.8; white-space: nowrap;
 }
-.has-webgl .works .panel--wide { background: linear-gradient(180deg, rgba(23, 19, 21, 0.82), rgba(17, 14, 15, 0.9)); }
+.has-webgl .works .panel--wide { background: linear-gradient(180deg, rgba(23, 19, 21, 0.86), rgba(15, 12, 13, 0.94)); }
+.has-webgl .works__head { margin-bottom: 2.2rem; }
+.has-webgl .works__toolbar { margin-bottom: 2.4rem; }
+.has-webgl .works__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.4rem 1.8rem; }
+.has-webgl .works__grid .work,
+.has-webgl .works__grid .work[data-size] { grid-column: auto; margin-top: 0; }
+.has-webgl .works__grid .work[data-size] .work__media { aspect-ratio: 4 / 3; }
+@media (max-width: 1024px) { .has-webgl .works__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .has-webgl .works__grid { grid-template-columns: 1fr; } }
 
 /* 04 일정 — 시계는 오른쪽, 내용은 왼쪽에 함께 */
 .has-webgl .schedule__intro { grid-column: 1 / span 6; margin-bottom: 2rem; }
@@ -864,37 +883,6 @@ main { position: relative; z-index: 2; }
   .has-webgl .works { padding-top: 60vh; }
   .has-webgl .works::before { top: 46vh; }
   .has-webgl .scene-section:not(.hero) { min-height: 0; padding-top: 55vh; }
-}
-
-/* ==========================================================================
-   02 · 집무실 사진 섹션 (기획 의도) — 첫 화면과 같은 '왼쪽 글 · 오른쪽 사진' 구도
-   3D 공간은 이 섹션 아래(학과 소개)부터 보입니다.
-   ========================================================================== */
-.about { position: relative; z-index: 1; overflow: hidden; isolation: isolate; background: var(--ink); min-height: 100vh; }
-.about__office { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.about__office-photo { position: sticky; top: 0; height: 100vh; width: 62%; margin-left: auto; }
-.about__office-inner { position: absolute; inset: -8% 0; overflow: hidden; }
-.about__office-inner img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; filter: brightness(0.92) contrast(1.04) saturate(1.02); }
-.about__office-shade {
-  position: absolute; inset: 0;
-  background:
-    linear-gradient(90deg, var(--ink) 0%, var(--ink) 38%, rgba(17, 14, 15, 0.72) 46%, rgba(17, 14, 15, 0.12) 64%, rgba(17, 14, 15, 0) 76%),
-    linear-gradient(180deg, var(--ink) 0%, rgba(17, 14, 15, 0) 16%, rgba(17, 14, 15, 0) 80%, var(--obsidian) 100%);
-}
-/* 사진 섹션에서는 이전 이미지(이력서 사진)를 쓰지 않고, 글을 왼쪽에 둡니다 */
-.about__figure { display: none; }
-.about__text { grid-column: 1 / span 6; max-width: 620px; }
-.display--about { padding-left: 0; }
-.has-webgl .about { display: flex; }
-.has-webgl .about__text { background: linear-gradient(160deg, rgba(35, 28, 29, 0.55), rgba(23, 19, 21, 0.35)); }
-
-@media (max-width: 1024px) {
-  .about { min-height: 0; padding-top: 0 !important; }
-  .about__office { position: relative; inset: auto; height: 72vh; margin: 0 calc(var(--gutter) * -1) -26vh; z-index: 0; }
-  .about__office-photo { position: absolute; inset: 0; width: auto; height: auto; }
-  .about__office-shade { background: linear-gradient(180deg, var(--ink) 0%, rgba(17, 14, 15, 0) 22%, rgba(17, 14, 15, 0.2) 55%, var(--ink) 100%); }
-  .about .display, .about__grid { position: relative; z-index: 1; }
-  .about__text { max-width: none; }
 }
 
 /* ==========================================================================
@@ -928,7 +916,7 @@ body:not([data-station="0"]) .next-cue { opacity: 1; pointer-events: auto; }
    ========================================================================== */
 html.is-deck, html.is-deck body { overflow: hidden; height: 100%; }
 .is-deck main { position: static; }
-.is-deck { --deck-pt: calc(var(--nav-h) + 2.5vh); --deck-pb: 11vh; }
+.is-deck { --deck-pt: calc(var(--nav-h) + 1.4vh); --deck-pb: 8.5vh; }
 
 .is-deck .scene-section,
 .is-deck .footer {
@@ -968,17 +956,27 @@ html.is-deck, html.is-deck body { overflow: hidden; height: 100%; }
 .is-deck .about__text, .is-deck .schedule__intro, .is-deck .schedule__board { grid-column: 1 / span 5; max-width: 600px; }
 .is-deck .dept__text, .is-deck .location__text, .is-deck .map-frame { grid-column: 8 / span 5; max-width: 600px; justify-self: end; width: 100%; }
 
-/* 01 기획 의도: 사진은 화면에 고정, 긴 글은 패널 안에서 스크롤 */
+/* 01 기획 의도: 3대 축까지 한 화면에 온전히 들어오도록 내부 간격 정교화 */
 .is-deck .about { overflow: hidden; }
-.is-deck .about__office-photo { position: absolute; top: 0; bottom: 0; right: 0; height: auto; width: 64%; }
-.is-deck .about__office-inner { inset: 0; }
-.is-deck .about__office-inner img { transform: scale(1.04); transition: transform 6s var(--ease); }
-.is-deck .about.is-current .about__office-inner img { transform: scale(1); }
-.is-deck .about__text { max-height: calc(100vh - var(--deck-pt) - var(--deck-pb) - clamp(3rem, 1rem + 4.6vw, 6.6rem) - 1.2rem); overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(214, 181, 138, 0.35) transparent; }
+.is-deck .about .display--about { font-size: clamp(2.2rem, 0.7rem + 2.6vw, 3.8rem); margin-bottom: 0.55rem; }
+.is-deck .about__text {
+  padding: clamp(1.35rem, 0.8rem + 1.2vw, 2rem) clamp(1.6rem, 1rem + 1.6vw, 2.4rem);
+  max-height: calc(100vh - var(--deck-pt) - var(--deck-pb) - 3.6rem);
+  overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(214, 181, 138, 0.35) transparent;
+}
+.is-deck .about__text .panel__stage { margin-bottom: 0.65rem; }
+.is-deck .about__text .panel__title { font-size: clamp(1.35rem, 0.95rem + 0.9vw, 1.85rem); line-height: 1.4; margin-bottom: 0.9rem; }
+.is-deck .about__text .prose p { font-size: 0.9375rem; line-height: 1.68; }
+.is-deck .about__text .prose p + p { margin-top: 0.65em; }
+.is-deck .about__text .triad { margin-top: 1.25rem; }
+.is-deck .about__text .triad__item { padding: 0.75rem 0; grid-template-columns: 2.6rem 1fr; column-gap: 0.9rem; }
+.is-deck .about__text .triad__symbol { font-size: 1.35rem; padding-top: 0.1rem; }
+.is-deck .about__text .triad__title { font-size: 0.95rem; }
+.is-deck .about__text .triad__item p { margin-top: 0.15rem; font-size: 0.84rem; line-height: 1.55; }
 .is-deck .about .display { position: relative; z-index: 1; }
 
-/* 02 학과 소개: 숫자 띠는 아래쪽에 낮게 */
-.is-deck .dept .facts { margin-top: 2.5rem; }
+/* 02 학과 소개: 역량 3가지와 하단 숫자 스트립이 모두 잘리지 않고 한눈에 보이도록 조정 */
+.is-deck .dept .facts { margin-top: 0.75rem; }
 
 /* 03 전시 구성: 먼저 3D 갤러리를 화면 가득, 작품 목록은 그 아래로 이어서 스크롤 */
 .is-deck .works { padding-top: 0; justify-content: flex-start; }
@@ -986,30 +984,45 @@ html.is-deck, html.is-deck body { overflow: hidden; height: 100%; }
 .is-deck .works .panel--wide { margin-top: 100vh; margin-top: 100dvh; }
 
 /* 04 일정: 제목과 보드가 한 덩어리 */
-.is-deck .schedule__intro { margin-bottom: 1.2rem; }
-.is-deck .schedule__board { padding: clamp(1.4rem, 0.8rem + 1.6vw, 2.4rem); }
-.is-deck .info { margin-bottom: 1.4rem; }
-.is-deck .info__row, .is-deck .timeline li { padding-block: 0.7rem; }
+.is-deck .schedule__intro { margin-bottom: 0.9rem; }
+.is-deck .schedule__board { padding: clamp(1.3rem, 0.8rem + 1.4vw, 2.1rem); }
+.is-deck .info { margin-bottom: 1.1rem; }
+.is-deck .info__row, .is-deck .timeline li { padding-block: 0.58rem; }
 
-/* 05 오시는 길: 글과 지도를 오른쪽 한 열로 */
-.is-deck .location__text { grid-row: 1; }
-.is-deck .map-frame { grid-row: 2; margin-top: 1rem; }
+/* 05 오시는 길: 글과 지도를 오른쪽 한 열로 균형 있게 배치 */
+.is-deck .location__text { grid-row: 1; padding: clamp(1.25rem, 0.7rem + 1.2vw, 1.85rem) clamp(1.5rem, 0.9rem + 1.5vw, 2.3rem); }
+.is-deck .location__text .panel__stage { margin-bottom: 0.5rem; }
+.is-deck .location__text .display--visit { font-size: clamp(2rem, 0.7rem + 2.4vw, 3.4rem); margin-bottom: 0.45rem; }
+.is-deck .location__text .panel__title { font-size: clamp(1.3rem, 0.95rem + 0.8vw, 1.75rem); margin-bottom: 0.6rem; }
+.is-deck .location__text .panel__actions { margin-top: 1.1rem; }
+.is-deck .map-frame { grid-row: 2; margin-top: 0.75rem; }
 .is-deck .map-frame .map { aspect-ratio: 16 / 7; height: auto; min-height: 0; }
 
 /* 푸터도 한 장면으로 */
 .is-deck .footer { display: flex; flex-direction: column; justify-content: flex-end; padding: var(--deck-pt) var(--gutter) 2.5rem; }
 
 /* 모든 장면에서 같은 위치에 장면 번호 */
-.is-deck .next-cue { bottom: 3.2vh; }
+.is-deck .next-cue { bottom: 2.6vh; }
 
 /* 학과 소개: 패널 안 타이틀을 패널 폭에 맞추고, 숫자 띠는 패널 아래 같은 폭으로 */
-.is-deck .dept .display--dept { font-size: clamp(2.4rem, 0.8rem + 3vw, 4.4rem); margin-bottom: 1rem; }
-.is-deck .dept__text .lead { font-size: var(--fs-base); }
-.is-deck .dept .facts { width: min(600px, calc((100% - 1.5rem * 11) / 12 * 5 + 1.5rem * 4)); margin: 1rem 0 0 auto; }
-.is-deck .dept .facts > div { padding: 1.1rem 1rem 1rem; }
-.is-deck .dept .facts strong { font-size: clamp(2rem, 1rem + 1.6vw, 3rem); }
+.is-deck .dept .display--dept { font-size: clamp(2rem, 0.7rem + 2.4vw, 3.5rem); margin-bottom: 0.5rem; }
+.is-deck .dept__text { padding: clamp(1.3rem, 0.8rem + 1.2vw, 1.95rem) clamp(1.6rem, 1rem + 1.6vw, 2.4rem); }
+.is-deck .dept__text .panel__stage { margin-bottom: 0.55rem; }
+.is-deck .dept__text .panel__title { font-size: clamp(1.35rem, 0.95rem + 0.85vw, 1.8rem); line-height: 1.38; margin-bottom: 0.7rem; }
+.is-deck .dept__text .lead { font-size: 0.95rem; line-height: 1.68; margin-bottom: 1.15rem; }
+.is-deck .dept__text .skills li { padding: 0.72rem 0; grid-template-columns: 2.2rem 8.5rem 1fr; gap: 0.75rem; }
+.is-deck .dept__text .skills h3 { font-size: 0.95rem; }
+.is-deck .dept__text .skills p { font-size: 0.84rem; line-height: 1.55; }
+.is-deck .dept .facts {
+  width: min(600px, calc((100% - 1.5rem * 11) / 12 * 5 + 1.5rem * 4));
+  margin: 0.75rem 0 0 auto;
+  border: 1px solid rgba(214, 181, 138, 0.16);
+  background: linear-gradient(165deg, rgba(24, 19, 20, 0.78), rgba(15, 12, 13, 0.68));
+}
+.is-deck .dept .facts > div { padding: 0.85rem 1.1rem 0.8rem; }
+.is-deck .dept .facts strong { font-size: clamp(1.75rem, 0.9rem + 1.4vw, 2.5rem); }
 .is-deck .dept .facts dd { gap: 0.5rem; }
-.is-deck .dept__text { max-height: calc(100vh - var(--deck-pt) - var(--deck-pb) - 8.5rem) !important; }
+.is-deck .dept__text { max-height: calc(100vh - var(--deck-pt) - var(--deck-pb) - 5.2rem) !important; }
 /* 일정·오시는 길·학과 소개 패널: 화면 안에 들어오도록 높이 제한(넘치면 패널 안 스크롤) */
 .is-deck .dept__text, .is-deck .schedule__board, .is-deck .location__text {
   max-height: calc(100vh - var(--deck-pt) - var(--deck-pb)); overflow-y: auto;
@@ -1017,16 +1030,14 @@ html.is-deck, html.is-deck body { overflow: hidden; height: 100%; }
 }
 
 /* 모든 장면의 영문 대형 타이틀을 같은 크기로 — 장면이 바뀌어도 비율이 일정하게 */
-.is-deck .scene-section .display,
-.is-deck .dept .display--dept { font-size: clamp(2.6rem, 0.8rem + 3.3vw, 5rem); line-height: 0.92; margin-bottom: 0.9rem; }
-.is-deck .about__text { max-height: calc(100vh - var(--deck-pt) - var(--deck-pb) - clamp(2.6rem, 0.8rem + 3.3vw, 5rem) - 0.9rem); }
+.is-deck .scene-section .display { font-size: clamp(2.3rem, 0.8rem + 2.8vw, 4.2rem); line-height: 0.92; margin-bottom: 0.65rem; }
 .is-deck .schedule .panel__title { margin-bottom: 0; }
-.is-deck .schedule__board { max-height: calc(100vh - var(--deck-pt) - var(--deck-pb) - 10rem); }
-.is-deck .location__text { max-height: none; overflow: visible; padding-bottom: clamp(1.4rem, 0.8rem + 1.6vw, 2.4rem); }
-.is-deck .location .address { padding: 0.8rem 0; }
-.is-deck .location .transit li { padding: 0.6rem 0; }
-.is-deck .map-frame { padding: 8px; }
-.is-deck .map-frame .map { aspect-ratio: auto; height: clamp(120px, 100vh - var(--deck-pt) - var(--deck-pb) - 32rem, 300px); }
+.is-deck .schedule__board { max-height: calc(100vh - var(--deck-pt) - var(--deck-pb) - 7.5rem); }
+.is-deck .location__text { max-height: none; overflow: visible; }
+.is-deck .location .address { padding: 0.55rem 0; }
+.is-deck .location .transit li { padding: 0.48rem 0; font-size: 0.88rem; }
+.is-deck .map-frame { padding: 6px; border: 1px solid rgba(214, 181, 138, 0.18); background: rgba(17, 14, 15, 0.75); }
+.is-deck .map-frame .map { aspect-ratio: auto; height: clamp(130px, calc(100vh - var(--deck-pt) - var(--deck-pb) - 26.5rem), 220px); }
 .is-deck .has-more { -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(180deg, #000 calc(100% - 64px), transparent); }
 /* 마지막(푸터) 장면에서는 'Back to top'이 있으므로 Next 버튼을 숨김 */
 body[data-station="end"] .next-cue { opacity: 0; pointer-events: none; }
@@ -1057,12 +1068,12 @@ body[data-station="end"] .next-cue { opacity: 0; pointer-events: none; }
 .is-deck.deck-back .scene-section:not(.is-current):not(.is-leaving) { transform: translate3d(0, -2.5vh, 0); }
 
 /* 사진 장면: 나갈 때 천천히 확대 + 페이드 (안으로 들어가는 느낌), 들어올 때 살짝 당겨지며 정착 */
-.is-deck .hero__media, .is-deck .about__office { transition: transform 2.4s var(--deck-ease); transform-origin: 62% 50%; }
-.is-deck .hero.is-leaving, .is-deck .about.is-leaving { transform: none; filter: none; transition-duration: 1.6s, 1.6s, 1.6s, 0s; transition-delay: 0s, 0s, 0s, 1.6s; }
-.is-deck .hero.is-leaving .hero__media, .is-deck .about.is-leaving .about__office { transform: scale(1.07); }
-.is-deck .hero:not(.is-current) .hero__media, .is-deck .about:not(.is-current) .about__office { transform: scale(1.04); }
-.is-deck .hero.is-current .hero__media, .is-deck .about.is-current .about__office { transform: none; transition-delay: var(--deck-in-delay); }
-.is-deck.deck-back .hero.is-leaving .hero__media, .is-deck.deck-back .about.is-leaving .about__office { transform: scale(0.97); }
+.is-deck .hero__media { transition: transform 2.4s var(--deck-ease); transform-origin: 62% 50%; }
+.is-deck .hero.is-leaving { transform: none; filter: none; transition-duration: 1.6s, 1.6s, 1.6s, 0s; transition-delay: 0s, 0s, 0s, 1.6s; }
+.is-deck .hero.is-leaving .hero__media { transform: scale(1.07); }
+.is-deck .hero:not(.is-current) .hero__media { transform: scale(1.04); }
+.is-deck .hero.is-current .hero__media { transform: none; transition-delay: var(--deck-in-delay); }
+.is-deck.deck-back .hero.is-leaving .hero__media { transform: scale(0.97); }
 
 /* 글 패널 안 요소들: 더 천천히, 더 넓은 간격으로 하나씩 */
 .is-deck [data-reveal] > * { transition-duration: 1.4s, 1.6s; transform: translateY(16px); }
